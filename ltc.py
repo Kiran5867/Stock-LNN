@@ -224,10 +224,10 @@ def evaluate_LTC_model(test_loader, model, device):
     actuals = np.array(actuals)
 
     # Calculate MSE and MASE
-    mse_temp = mean_squared_error(actuals[:, 0], predictions[:, 0])
-    mse_humidity = mean_squared_error(actuals[:, 1], predictions[:, 1])
-    mase_temp = calculate_mase(actuals[:, 0], predictions[:, 0])
-    mase_humidity = calculate_mase(actuals[:, 1], predictions[:, 1])
+    mse_open = mean_squared_error(actuals[:, 0], predictions[:, 0])
+    mse_close = mean_squared_error(actuals[:, 1], predictions[:, 1])
+    mase_open = calculate_mase(actuals[:, 0], predictions[:, 0])
+    mase_close = calculate_mase(actuals[:, 1], predictions[:, 1])
 
     # Get the current GPU memory usage
     if torch.cuda.is_available():
@@ -237,12 +237,12 @@ def evaluate_LTC_model(test_loader, model, device):
         allocated_memory = reserved_memory = None
 
     print("Test set evaluation metrics (on normalized data):")
-    print(f"Temperature - MSE: {mse_temp:.4f}, MASE: {mase_temp:.4f}")
-    print(f"Humidity - MSE: {mse_humidity:.4f}, MASE: {mase_humidity:.4f}")
+    print(f"Open - MSE: {mse_open:.4f}, MASE: {mase_open:.4f}")
+    print(f"Close - MSE: {mse_close:.4f}, MASE: {mase_close:.4f}")
 
     if allocated_memory is not None and reserved_memory is not None:
         print(f"Memory allocated: {allocated_memory:.2f} MB")
         print(f"Memory reserved: {reserved_memory:.2f} MB")
 
-    return predictions, actuals, mse_temp, mse_humidity, mase_temp, mase_humidity, allocated_memory, reserved_memory
+    return predictions, actuals, mse_open, mse_close, mase_open, mase_close, allocated_memory, reserved_memory
 
