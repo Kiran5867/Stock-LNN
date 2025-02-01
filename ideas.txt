@@ -1,0 +1,6 @@
+Also try to predict the standard deviation of the temperature sequence, or some measure of variation.
+
+LTCs in parallel? one LTC for each tau, each receives the input. 
+Then the output of each LTC is fed into another LTC, of some special tau (experiment with taus, yes)
+Instead of just LTCs in sequences, which didn't even work in shilong's experiment according to the output.
+
