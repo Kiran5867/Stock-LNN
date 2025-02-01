@@ -11,7 +11,7 @@ def create_sequences(data, seq_length):
         X.append(data[i:i + seq_length])
         y.append(data[i + seq_length])
     return np.array(X), np.array(y)
-
+    
 # Define MASE calculation function
 def calculate_mase(actual, predicted, seasonal_period=1):
     mae_forecast = np.mean(np.abs(actual - predicted))
@@ -23,7 +23,7 @@ def visualize_model_results(results_dict):
     model_names = list(results_dict.keys())
     
     metrics_to_visualize = ['train_time', 'allocated_memory', 'reserved_memory', 'epoch_dx_dt_history',
-                            'mse_temp', 'mse_humidity', 'mase_temp', 'mase_humidity']
+                            'mse_open', 'mse_close', 'mase_open', 'mase_close']
     
     # Create subplots with 2 columns and one metric per subplot
     num_metrics = len(metrics_to_visualize)
@@ -38,7 +38,7 @@ def visualize_model_results(results_dict):
         for model in model_names:
             metrics = results_dict[model]
 
-            if metric in ['train_time', 'allocated_memory', 'reserved_memory', 'mse_temp', 'mse_humidity', 'mase_temp', 'mase_humidity']:
+            if metric in ['train_time', 'allocated_memory', 'reserved_memory', 'mse_open', 'mse_close', 'mase_open', 'mase_close']:
                 value = metrics.get(metric)
                 if value is not None:
 
@@ -83,27 +83,27 @@ def visualize_model_results(results_dict):
 # Plot results function
 def plot_results(predictions, actuals, title="Comparison of Predicted and Actual Values (Normalized)"):
     results = pd.DataFrame({
-        'Predicted Temperature': predictions[:, 0],
-        'Actual Temperature': actuals[:, 0],
-        'Predicted Humidity': predictions[:, 1],
-        'Actual Humidity': actuals[:, 1]
+        'Predicted Open': predictions[:, 0],
+        'Actual Open': actuals[:, 0],
+        'Predicted Close': predictions[:, 1],
+        'Actual Close': actuals[:, 1]
     })
     
     plt.figure(figsize=(12, 6))
-    plt.plot(results['Actual Temperature'], label='Actual Temperature', color='blue')
-    plt.plot(results['Predicted Temperature'], label='Predicted Temperature', color='red', linestyle='--')
-    plt.title(f'Temperature - {title}')
+    plt.plot(results['Actual Open'], label='Actual Open', color='blue')
+    plt.plot(results['Predicted Open'], label='Predicted Open', color='red', linestyle='--')
+    plt.title(f'Open - {title}')
     plt.xlabel('Time Steps')
-    plt.ylabel('Normalized Temperature')
+    plt.ylabel('Normalized Open')
     plt.legend()
     plt.show()
     
     plt.figure(figsize=(12, 6))
-    plt.plot(results['Actual Humidity'], label='Actual Humidity', color='blue')
-    plt.plot(results['Predicted Humidity'], label='Predicted Humidity', color='red', linestyle='--')
-    plt.title(f'Humidity - {title}')
+    plt.plot(results['Actual Close'], label='Actual Close', color='blue')
+    plt.plot(results['Predicted Close'], label='Predicted Close', color='red', linestyle='--')
+    plt.title(f'Close - {title}')
     plt.xlabel('Time Steps')
-    plt.ylabel('Normalized Humidity')
+    plt.ylabel('Normalized Close')
     plt.legend()
     plt.show()
     
